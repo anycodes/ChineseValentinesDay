@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情人节表白神器</title>
+    <script>
+        function get_poem() {
+            document.getElementById("get_poem_button").hidden = true
+            document.getElementById("get_poem_result").hidden = false
+            const xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("get_poem_result_pre").innerText = xmlhttp.responseText
+                }
+            }
+            var url = window.location.href + "poem"
+            xmlhttp.open("POST", url, true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send(JSON.stringify({
+                content: document.getElementById("content").value,
+            }));
+        }
+
+        function get_picture() {
+            document.getElementById("get_poem").hidden = true
+            document.getElementById("get_picture").hidden = false
+            const xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP")
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("get_picture_picture").src = xmlhttp.responseText
+                }
+            }
+            var url = window.location.href + "picture"
+            xmlhttp.open("POST", url, true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send(JSON.stringify({
+                content: document.getElementById("get_poem_result_pre").innerText,
+            }));
+
+        }
+    </script>
+    <style>
+        pre {
+            margin: 20px;
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+            *white-space: normal !important;
+        }
+    </style>
+</head>
+<body>
+
+<center><h1>情人节</h1></center>
+<center><h3>我对你的爱, 不仅仅是几行诗</h3></center>
+<hr>
+
+<div id="get_poem">
+    <div align="center">
+        <p>请输入四个字，让我帮你写首诗，送给心爱的Ta</p>
+        <input type="text" id="content" placeholder="默认关键词：我爱阿里"><br>
+        <button style="margin-top: 5px" onclick="get_poem()" id="get_poem_button">点击生成古诗</button>
+    </div>
+    <div align="center" hidden id="get_poem_result">
+        <pre style="box-shadow:0 0 1px #000 inset;" id="get_poem_result_pre">古诗词撰写中，如果长期没出结果请点击"点击重新生成古诗"</pre>
+        <br>
+        <button style="margin-top: 1px" onclick="get_poem()">点击重新生成古诗</button>
+        <button style="margin-top: 1px" onclick="get_picture()">满意这首诗生成图</button>
+    </div>
+</div>
+<div id="get_picture" hidden>
+    <center><img id="get_picture_picture" src="" style="width: 100%; max-width: 500px"/>
+        <h3>保存下来，给心爱的Ta吧</h3></center>
+</div>
+</body>
+</html>
