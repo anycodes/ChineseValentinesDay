@@ -29,7 +29,10 @@ def getPoem(content):
         )
     ).read()
 
-    return json.loads(data.decode("utf-8"))["message"]
+    try:
+        return json.loads(data.decode("utf-8"))["message"]
+    except:
+        return data.decode("utf-8")
 
 
 def getPage():
